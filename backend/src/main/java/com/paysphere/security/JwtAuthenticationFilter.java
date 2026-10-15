@@ -39,7 +39,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String email = jwtService.extractUsername(token);
             if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = userDetailsService.loadUserByUsername(email);
-                if (jwtService.isValid(token, userDetails)) {
+                // isEnabled() makes a deactivated account lose access immediately,
+                // even if its token has not expired yet.
+                if (userDetails.isEnabled() && jwtService.isValid(token, userDetails)) {
                     UsernamePasswordAuthenticationToken auth =
                             new UsernamePasswordAuthenticationToken(
                                     userDetails, null, userDetails.getAuthorities());

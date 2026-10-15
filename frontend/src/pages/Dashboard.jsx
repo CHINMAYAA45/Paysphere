@@ -10,29 +10,29 @@ const CARDS = {
 
 export default function Dashboard() {
   const { auth } = useAuth()
-  const [check, setCheck] = useState({ state: 'loading', text: '' })
+  const [check, setCheck] = useState({ state: 'loading', account: null })
 
   // Proves the JWT works: calls a protected backend endpoint.
   useEffect(() => {
     let cancelled = false
     api
-      .get('/api/test/me')
+      .get('/api/account/me')
       .then(({ data }) => {
-        if (cancelled) return
-        const text = typeof data === 'string' ? data : JSON.stringify(data)
-        setCheck({ state: 'ok', text })
+        if (!cancelled) setCheck({ state: 'ok', account: data })
       })
       .catch(() => {
-        if (!cancelled) setCheck({ state: 'error', text: 'Could not reach the backend.' })
+        if (!cancelled) setCheck({ state: 'error', account: null })
       })
     return () => {
       cancelled = true
     }
   }, [])
 
+  const fullName = check.account?.fullName
+
   return (
     <div className="mx-auto max-w-5xl">
-      <h1 className="text-2xl font-bold">Welcome back</h1>
+      <h1 className="text-2xl font-bold">Welcome back{fullName ? `, ${fullName}` : ''}</h1>
       <p className="mt-1 text-slate-600">
         Signed in as <span className="font-medium">{auth.email}</span>{' '}
         <span className="ml-1 rounded-full bg-indigo-100 px-2 py-0.5 text-xs font-semibold text-indigo-700">
@@ -47,10 +47,12 @@ export default function Dashboard() {
         {check.state === 'loading' && <p className="mt-2 text-sm text-slate-500">Checking…</p>}
         {check.state === 'ok' && (
           <p className="mt-2 break-words text-sm text-emerald-700">
-            ✓ Connected. Server replied: {check.text}
+            ✓ Connected. The server recognises you as {check.account.email} ({check.account.role}).
           </p>
         )}
-        {check.state === 'error' && <p className="mt-2 text-sm text-red-600">✗ {check.text}</p>}
+        {check.state === 'error' && (
+          <p className="mt-2 text-sm text-red-600">✗ Could not reach the backend.</p>
+        )}
       </div>
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2">
