@@ -1,8 +1,9 @@
+import { NavLink } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 
 const NAV = [
-  { label: 'Dashboard', roles: ['ADMIN', 'HR', 'EMPLOYEE'], active: true },
-  { label: 'Employees', roles: ['ADMIN', 'HR'], soon: true },
+  { label: 'Dashboard', to: '/dashboard', roles: ['ADMIN', 'HR', 'EMPLOYEE'] },
+  { label: 'Employees', to: '/employees', roles: ['ADMIN', 'HR'] },
   { label: 'Attendance', roles: ['ADMIN', 'HR', 'EMPLOYEE'], soon: true },
   { label: 'Leave', roles: ['ADMIN', 'HR', 'EMPLOYEE'], soon: true },
   { label: 'Payroll', roles: ['ADMIN', 'HR'], soon: true },
@@ -20,23 +21,31 @@ export default function Layout({ children }) {
           Pay<span className="text-indigo-400">Sphere</span>
         </div>
         <nav className="flex-1 space-y-1 px-3">
-          {items.map((item) => (
-            <div
-              key={item.label}
-              className={`flex items-center justify-between rounded-lg px-3 py-2 text-sm ${
-                item.active
-                  ? 'bg-indigo-600 text-white'
-                  : 'cursor-not-allowed text-slate-400'
-              }`}
-            >
-              <span>{item.label}</span>
-              {item.soon && (
+          {items.map((item) =>
+            item.to ? (
+              <NavLink
+                key={item.label}
+                to={item.to}
+                className={({ isActive }) =>
+                  `flex items-center rounded-lg px-3 py-2 text-sm ${
+                    isActive ? 'bg-indigo-600 text-white' : 'text-slate-300 hover:bg-slate-800'
+                  }`
+                }
+              >
+                {item.label}
+              </NavLink>
+            ) : (
+              <div
+                key={item.label}
+                className="flex cursor-not-allowed items-center justify-between rounded-lg px-3 py-2 text-sm text-slate-400"
+              >
+                <span>{item.label}</span>
                 <span className="rounded bg-slate-700 px-1.5 py-0.5 text-[10px] uppercase tracking-wide">
                   soon
                 </span>
-              )}
-            </div>
-          ))}
+              </div>
+            ),
+          )}
         </nav>
       </aside>
 
