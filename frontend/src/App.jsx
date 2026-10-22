@@ -6,6 +6,8 @@ import Dashboard from './pages/Dashboard.jsx'
 import Employees from './pages/Employees.jsx'
 import Leave from './pages/Leave.jsx'
 import Login from './pages/Login.jsx'
+import MyPayslips from './pages/MyPayslips.jsx'
+import Payroll from './pages/Payroll.jsx'
 
 export default function App() {
   return (
@@ -47,6 +49,26 @@ export default function App() {
           <ProtectedRoute>
             <Layout>
               <Leave />
+            </Layout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/payroll"
+        element={
+          <ProtectedRoute roles={['ADMIN', 'HR']}>
+            <Layout>
+              <Payroll />
+            </Layout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/payslips"
+        element={
+          <ProtectedRoute roles={['EMPLOYEE', 'HR']}>
+            <Layout>
+              <MyPayslips />
             </Layout>
           </ProtectedRoute>
         }

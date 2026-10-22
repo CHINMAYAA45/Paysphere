@@ -1,5 +1,21 @@
 @import "tailwindcss";
 
-body {
-  @apply bg-slate-50 text-slate-800 antialiased;
+/* When printing a payslip, hide everything except the payslip itself. */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #payslip-print,
+  #payslip-print * {
+    visibility: visible;
+  }
+  #payslip-print {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+  .no-print {
+    display: none !important;
+  }
 }
