@@ -4,6 +4,7 @@ import ProtectedRoute from './components/ProtectedRoute.jsx'
 import Attendance from './pages/Attendance.jsx'
 import Dashboard from './pages/Dashboard.jsx'
 import Employees from './pages/Employees.jsx'
+import Leave from './pages/Leave.jsx'
 import Login from './pages/Login.jsx'
 
 export default function App() {
@@ -36,6 +37,16 @@ export default function App() {
           <ProtectedRoute>
             <Layout>
               <Attendance />
+            </Layout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/leave"
+        element={
+          <ProtectedRoute>
+            <Layout>
+              <Leave />
             </Layout>
           </ProtectedRoute>
         }

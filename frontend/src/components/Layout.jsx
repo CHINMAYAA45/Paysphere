@@ -5,7 +5,7 @@ const NAV = [
   { label: 'Dashboard', to: '/dashboard', roles: ['ADMIN', 'HR', 'EMPLOYEE'] },
   { label: 'Employees', to: '/employees', roles: ['ADMIN', 'HR'] },
   { label: 'Attendance', to: '/attendance', roles: ['ADMIN', 'HR', 'EMPLOYEE'] },
-  { label: 'Leave', roles: ['ADMIN', 'HR', 'EMPLOYEE'], soon: true },
+  { label: 'Leave', to: '/leave', roles: ['ADMIN', 'HR', 'EMPLOYEE'] },
   { label: 'Payroll', roles: ['ADMIN', 'HR'], soon: true },
   { label: 'My Payslips', roles: ['EMPLOYEE'], soon: true },
 ]
